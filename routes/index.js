@@ -134,31 +134,21 @@ function queryBuilder(query) {
     var queryObject = {};
     query.forEach(element => {
         if (!element.multiple) {
-            var t = objAccordingTooperator(element.condition, element.value);
-            queryObject[element.field] = t;
+            var queryVal = singleOperatorQuery(element.condition, element.value);
+            queryObject[element.field] = queryVal;
         }
         if (element.multiple) {
-
+            var multipleOperatorVal = multipleOperatorQuery(element.condition, element.fields);
+            debugger;
         }
     });
 }
 
-function objAccordingTooperator(operator, value) {
-    if (operator == 'in' || operator == 'nin') {
+function singleOperatorQuery(condition, value) {
+    if (condition == 'in' || condition == 'nin') {
         value = value.split(',');
     }
-    // var conditions = {
-    //     'in': {
-    //         $in: value
-    //     },
-    //     'gte': {
-    //         $gte: value
-    //     },
-    //     'lt': {
-    //         $lt: value
-    //     }
-    // } 
-    switch (operator) {
+    switch (condition) {
         case 'in':
             return {
                 $in: value
@@ -168,6 +158,10 @@ function objAccordingTooperator(operator, value) {
         case 'gte':
             return {
                 $gte: value
+            }
+        case 'gt':
+            return {
+                $gt: value
             }
         case 'lt':
             return {
@@ -183,6 +177,28 @@ function objAccordingTooperator(operator, value) {
             break;
     }
     // return conditions[operator];
+}
+
+function multipleOperatorQuery(condition, value) {
+    var resultarray = [];
+    switch (condition) {
+        case 'and':
+            value.forEach(element => {
+                var conditionObject = {};
+                conditionObject[element.field] = singleOperatorQuery(element.condition, element.value);
+                resultarray.push(conditionObject);
+            });
+            debugger;
+            return {
+                $and: resultarray
+            }
+            break;
+
+        case 'or':
+            return {
+                $gte: value
+            }
+    }
 }
 
 module.exports = router;
