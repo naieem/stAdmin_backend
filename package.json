@@ -14,7 +14,7 @@
         "express": "~4.14.1",
         "faker": "^4.1.0",
         "mongoose": "^5.0.7",
-        "morgan": "~1.7.0",
+        "morgan": "~1.9.1",
         "redis": "^2.8.0",
         "serve-favicon": "~2.3.2",
         "uuid-v4": "^0.1.0"
