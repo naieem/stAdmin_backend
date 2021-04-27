@@ -15,7 +15,7 @@
         "faker": "^4.1.0",
         "mongoose": "^5.0.7",
         "morgan": "~1.7.0",
-        "redis": "^2.8.0",
+        "redis": "^3.1.1",
         "serve-favicon": "~2.3.2",
         "uuid-v4": "^0.1.0"
     }
